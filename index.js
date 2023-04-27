@@ -1,4 +1,16 @@
 const contacts = require("./contacts");
+const { Command } = require("commander");
+const program = new Command();
+
+program
+  .option("-a, --action <type>", "choose action")
+  .option("-i, --id <type>", "choose id")
+  .option("-n, --name <type>", "choose name")
+  .option("-e, --email <type>", "choose email")
+  .option("-p, --phone <type>", "choose phone");
+program.parse(process.argv);
+
+const options = program.opts();
 
 const invokeAction = async ({ action, name, email, phone, id }) => {
   switch (action) {
@@ -17,13 +29,4 @@ const invokeAction = async ({ action, name, email, phone, id }) => {
       return console.log("Contact was deleted");
   }
 };
-
-invokeAction({ action: "read" });
-invokeAction({ action: "getById", id: "05olLMgyVQdWRwgKfg5J6" });
-invokeAction({
-  action: "add",
-  name: "Mango",
-  email: "mango@gmail.com",
-  phone: "322-22-22",
-});
-invokeAction({ action: "delete", id: "qdggE76Jtbfd9eWJHrssH " });
+invokeAction(options);
